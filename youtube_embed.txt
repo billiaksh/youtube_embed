@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Video with Stop Time</title>
+    <script>
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-video', {
+                videoId: 'ovOByuczdxk', // Replace with your video ID
+                playerVars: {
+                    start: 32, // Start at 32 seconds
+                    autoplay: 1, // Autoplay enabled
+                    controls: 1, // Show controls
+                },
+                events: {
+                    onReady: onPlayerReady,
+                    onStateChange: onPlayerStateChange
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            event.target.playVideo();
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                var stopTime = 115; // Stop at 115 seconds
+                setInterval(function() {
+                    if (player.getCurrentTime() >= stopTime) {
+                        player.stopVideo();
+                    }
+                }, 1000);
+            }
+        }
+    </script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+</head>
+<body>
+    <div id="player-container">
+        <div id="youtube-video"></div>
+    </div>
+</body>
+</html>
